@@ -2,6 +2,10 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const app = require('./app')
 
+const connectDB = require('./src/config/db')
+
+connectDB()
+
 const server  = async () => {
     try {
         
