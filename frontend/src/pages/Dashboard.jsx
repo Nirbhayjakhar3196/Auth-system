@@ -1,5 +1,5 @@
 // Dashboard page component
-import { useNavigate ,Navigate } from "react-router-dom";
+import { useNavigate ,Navigate ,Link } from "react-router-dom";
 
 function Dashboard() {
 
@@ -34,6 +34,10 @@ function Dashboard() {
 
 
             <button onClick={handleLogout}>Logout</button>
+            <br />
+            <Link to="/admin">
+                Go to Admin Panel
+            </Link>
         </div>
     )
 }
