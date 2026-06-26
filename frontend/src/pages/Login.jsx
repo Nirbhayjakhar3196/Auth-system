@@ -27,12 +27,14 @@ function Login() {
 
       localStorage.setItem("token", res.data.token);
 
-      navigate("/dashboard");
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
 
       alert("Login Successfully")
-        
-      
-      
+      navigate("/dashboard");
+
     } catch (error) {
         console.log(error.message)
 

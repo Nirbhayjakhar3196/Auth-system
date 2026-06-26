@@ -5,11 +5,16 @@ const sendEmail = require("../utils/sendEmail");
 const { generateToken } = require("../utils/tokenUtils");
 
 const registerUser = async ({ name, email, password }) => {
+
+    console.log("STEP 1");
+    
     const user = await User.create({
         name,
         email,
         password,
     });
+
+    console.log(user);
 
     return {
         message: "User registered",
@@ -18,8 +23,11 @@ const registerUser = async ({ name, email, password }) => {
             id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role
         },
     };
+    console.log("STEP 2");
+    
 };
 
 const loginUser = async ({ email, password }) => {
@@ -42,6 +50,7 @@ const loginUser = async ({ email, password }) => {
             id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role
         },
     };
 };

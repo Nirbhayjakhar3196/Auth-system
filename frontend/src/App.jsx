@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import ResetFunction from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Admin from "./pages/Admin";
+import AdminRoute from "./components/AdminRoute";
 
 function App() {
   return (
@@ -24,6 +26,11 @@ function App() {
               <Dashboard/>
             </ProtectedRoute>
             } />
+          <Route path="/admin" element={
+            <AdminRoute>
+              <Admin/>
+            </AdminRoute>
+          } />
 
         </Routes>
 
