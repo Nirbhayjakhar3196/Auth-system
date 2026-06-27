@@ -1,24 +1,37 @@
 const User = require("../models/User")
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
 
 const sendEmail = require("../utils/sendEmail");
-const { generateToken } = require("../utils/tokenUtils");
+const { generateAccessToken , generateRefreshToken } = require("../utils/tokenUtils");
+
 
 const registerUser = async ({ name, email, password }) => {
 
-    console.log("STEP 1");
-    
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
+
+    if (existingUser) {
+        throw new Error("User already registered");
+    }
+
     const user = await User.create({
         name,
         email,
         password,
     });
 
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
     console.log(user);
 
     return {
         message: "User registered",
-        token: generateToken(user._id),
+        accessToken,
+        refreshToken,
         user: {
             id: user._id,
             name: user.name,
@@ -43,9 +56,16 @@ const loginUser = async ({ email, password }) => {
         throw new Error("Invalid credentials");
     }
 
+    const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
     return {
         message: "Login successful",
-        token: generateToken(user._id),
+        accessToken,
+        refreshToken,
         user: {
             id: user._id,
             name: user.name,
@@ -54,6 +74,32 @@ const loginUser = async ({ email, password }) => {
         },
     };
 };
+
+const refreshTokenService = async (incomingRefreshToken) => {
+
+    if (!incomingRefreshToken) {
+        throw new Error("Refresh token not provided");
+    }
+
+    const decoded = jwt.verify(incomingRefreshToken, process.env.REFRESH_SECRET);
+
+    const user = await User.findById(decoded.id);
+
+    if(!user){
+        throw new Error("User not found");
+    }
+
+    if(user.refreshToken !== incomingRefreshToken){
+        throw new Error("Invalid refresh token");
+    }
+
+    const newAccessToken = generateAccessToken(user);
+
+    return {
+        accessToken: newAccessToken,
+    };
+
+}
 
 const forgotPasswordService = async (email) => {
     const user = await User.findOne({
@@ -123,6 +169,7 @@ const resetPasswordService = async (token, password) => {
 module.exports = {
     registerUser,
     loginUser,
+    refreshTokenService,
     forgotPasswordService,
     resetPasswordService,
 };

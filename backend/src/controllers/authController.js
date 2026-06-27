@@ -24,6 +24,20 @@ const login = async (req, res) => {
     }
 };
 
+const refreshToken = async (req, res) => {
+
+    try {
+        const result = await authService.refreshTokenService(req.body.refreshToken);
+
+        return res.status(200).json(result);
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message,
+        });
+    }
+
+}
+
 const forgotPassword = async (req, res) => {
     try {
         const result = await authService.forgotPasswordService(
@@ -58,4 +72,5 @@ module.exports = {
     login,
     forgotPassword,
     resetPassword,
+    refreshToken
 };
