@@ -11,7 +11,6 @@ router.post('/forgot-password' , forgotPassword)
 router.post('/reset-password/:token' , resetPassword)
 router.post('/refresh-token' , refreshToken)
 router.post('/logout' , logout)
-
 router.get("/me" , protect ,(req,res) => {
     res.json({
         message : "Access granted",
@@ -21,7 +20,7 @@ router.get("/me" , protect ,(req,res) => {
 
 router.get("/admin" , protect , authorize("admin") , (req,res) => {
     res.json({
-        message : "Access granted to admin",
+        message : "Congratulations, Access granted to admin",
         admin : req.user,
     })
 })
