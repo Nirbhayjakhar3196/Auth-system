@@ -1,0 +1,41 @@
+Register
+    ↓
+Access Token Cookie
+Refresh Token Cookie
+
+↓
+
+Login
+    ↓
+Access Token Cookie
+Refresh Token Cookie
+
+↓
+
+Protected Route
+    ↓
+Browser sends cookies automatically
+    ↓
+Backend verifies access token
+
+↓
+
+Access Token expires
+    ↓
+Frontend calls /refresh-token
+    ↓
+Browser sends refresh token cookie
+    ↓
+Backend issues new access token cookie
+
+↓
+
+Logout
+    ↓
+Delete refresh token from DB
+    ↓
+Clear access token cookie
+    ↓
+Clear refresh token cookie
+    ↓
+User logged out
