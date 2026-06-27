@@ -1,299 +1,331 @@
-# 🔐 Full Stack Authentication System
+# 🔐 MERN Authentication & Authorization System
 
-A complete authentication system built using:
+A production-oriented authentication and authorization system built with the MERN stack.
 
-* React.js (Frontend)
-* Node.js + Express.js (Backend)
-* MongoDB + Mongoose
-* JWT Authentication
-* Nodemailer (Forgot Password Email)
-
-This project includes:
-
-✅ Register
-✅ Login
-✅ JWT Token Authentication
-✅ Protected Routes
-✅ Logout
-✅ Forgot Password
-✅ Reset Password
-✅ Email Sending using Nodemailer
+This project demonstrates modern backend architecture, secure authentication practices, role-based authorization, password recovery through email, and HTTP-only cookie authentication.
 
 ---
 
-# 🚀 Tech Stack
+# 🚀 Features
 
-## Frontend
+## ✅ Authentication
 
-* React.js
-* React Router DOM
-* Axios
-
-## Backend
-
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT
-* bcrypt
-* crypto
-* Nodemailer
-* dotenv
-* cors
+- User Registration
+- User Login
+- Password Hashing using bcrypt
+- JWT Authentication
+- Access Token Authentication
+- Refresh Token Authentication
+- HTTP-only Cookie Authentication
+- Protected Routes
+- Forgot Password
+- Reset Password
+- Logout
+- Refresh Access Token
 
 ---
 
-# 📁 Folder Structure
+## ✅ Authorization
 
-## Frontend
+- Role-Based Access Control (RBAC)
+- User Role
+- Admin Role
+- Authorization Middleware
+- Protected Admin Routes
 
-```bash
-frontend/
-│
-├── src/
-│   ├── pages/
-│   │   ├── Login.jsx
-│   │   ├── Register.jsx
-│   │   ├── ForgotPassword.jsx
-│   │   ├── ResetPassword.jsx
-│   │   └── Dashboard.jsx
-│   │
-│   ├── components/
-│   │   └── ProtectedRoute.jsx
-│   │
-│   ├── App.jsx
-│   └── main.jsx
+---
+
+## 🔒 Security Features
+
+- Password hashing with bcrypt
+- JWT Access Tokens
+- JWT Refresh Tokens
+- HTTP-only Cookies
+- Secure Password Reset Tokens
+- SHA-256 Hashed Reset Tokens
+- Token Expiration
+- Protected API Endpoints
+- Cookie-based Authentication
+
+---
+
+# 🏗 Project Architecture
+
+```
+Client
+   │
+   ▼
+Routes
+   │
+   ▼
+Controllers
+   │
+   ▼
+Services
+   │
+   ▼
+Models
+   │
+   ▼
+MongoDB
 ```
 
+The backend follows a layered architecture by separating routing, controllers, business logic, models, middleware, and utilities.
+
 ---
 
-## Backend
+# 📂 Folder Structure
 
-```bash
+```
 backend/
 │
-├── src/
-│   ├── controllers/
-│   │   └── authController.js
-│   │
-│   ├── models/
-│   │   └── User.js
-│   │
-│   ├── routes/
-│   │   └── authRoutes.js
-│   │
-│   ├── utils/
-│   │   └── sendEmail.js
+├── config/
+│   └── db.js
 │
-├── .env
+├── controllers/
+│   └── authController.js
+│
+├── middleware/
+│   ├── authMiddleware.js
+│   └── authorize.js
+│
+├── models/
+│   └── User.js
+│
+├── routes/
+│   └── authRoutes.js
+│
+├── services/
+│   └── authServices.js
+│
+├── utils/
+│   ├── tokenUtils.js
+│   └── sendEmail.js
+│
 ├── app.js
 ├── server.js
+└── .env
+
+frontend/
+│
+├── pages/
+│   ├── Login.jsx
+│   ├── Register.jsx
+│   ├── Dashboard.jsx
+│   ├── ForgotPassword.jsx
+│   ├── ResetPassword.jsx
+│   └── Admin.jsx
+│
+├── components/
+│   └── ProtectedRoute.jsx
+│
+├── App.jsx
+└── main.jsx
 ```
 
 ---
 
-# ⚙️ Environment Variables
+# 🗄 User Schema
 
-Create a `.env` file inside backend folder.
-
-```env
-MONGO_URI=your_mongodb_connection_string
-PORT=3000
-JWT_SECRET=your_jwt_secret
-
-EMAIL_USER=your_gmail@gmail.com
-EMAIL_PASS=your_google_app_password
+```javascript
+{
+  name,
+  email,
+  password,
+  role,
+  refreshToken,
+  resetPasswordToken,
+  resetPasswordExpire
+}
 ```
-
----
-
-# 📦 Installation
-
-## 1️⃣ Clone Repository
-
-```bash
-git clone <your_repo_link>
-```
-
----
-
-# 🖥️ Backend Setup
-
-## Install Dependencies
-
-```bash
-npm install
-```
-
-## Run Backend
-
-```bash
-npm run dev
-```
-
-OR
-
-```bash
-node server.js
-```
-
----
-
-# 🌐 Frontend Setup
-
-## Install Dependencies
-
-```bash
-npm install
-```
-
-## Start Frontend
-
-```bash
-npm run dev
-```
-
----
-
-# 🔐 Features
-
-## ✅ Register
-
-Users can:
-
-* Create account
-* Store encrypted password using bcrypt
-* Receive JWT token
-
----
-
-## ✅ Login
-
-Users can:
-
-* Login using email and password
-* Receive JWT token
-* Store token in localStorage
-
----
-
-## ✅ Protected Routes
-
-Dashboard route is protected.
-
-Without token:
-
-* User is redirected to Login page.
-
-With token:
-
-* Dashboard access allowed.
-
----
-
-## ✅ Forgot Password
-
-User enters registered email.
-
-Backend:
-
-* Generates reset token
-* Sends email using Nodemailer
-
----
-
-## ✅ Reset Password
-
-User clicks reset link from email.
-
-User can:
-
-* Enter new password
-* Reset account password successfully
 
 ---
 
 # 🔑 Authentication Flow
 
-## Register
-
-```bash
-User → Register → JWT Token Generated
 ```
-
-## Login
-
-```bash
-User → Login → Token Stored in localStorage
-```
-
-## Protected Route
-
-```bash
-Token Exists → Access Granted
-No Token → Redirect to Login
-```
-
-## Forgot Password
-
-```bash
-Email → Token Generated → Email Sent
-```
-
-## Reset Password
-
-```bash
-Reset Link → New Password → Password Updated
+Register/Login
+        │
+        ▼
+Generate Access Token
+Generate Refresh Token
+        │
+        ▼
+Store Tokens in HTTP-only Cookies
+        │
+        ▼
+Browser Sends Cookies Automatically
+        │
+        ▼
+Backend Verifies Token
+        │
+        ▼
+Protected Route Access
 ```
 
 ---
 
-# 📮 API Routes
+# 🔄 Refresh Token Flow
 
-## Auth Routes
-
-| Method | Route                           | Description      |
-| ------ | ------------------------------- | ---------------- |
-| POST   | /api/auth/register              | Register User    |
-| POST   | /api/auth/login                 | Login User       |
-| POST   | /api/auth/forgot-password       | Send Reset Email |
-| POST   | /api/auth/reset-password/:token | Reset Password   |
-
----
-
-# 🧠 Concepts Learned
-
-* React Forms
-* React State Management
-* React Router
-* useNavigate
-* useParams
-* Axios API Calls
-* JWT Authentication
-* Password Hashing
-* MongoDB + Mongoose
-* Protected Routes
-* Nodemailer Email Sending
-* Reset Password Flow
+```
+Access Token Expires
+        │
+        ▼
+Browser Calls Refresh Endpoint
+        │
+        ▼
+Refresh Token Verified
+        │
+        ▼
+Generate New Access Token
+        │
+        ▼
+Set New Access Token Cookie
+```
 
 ---
 
-# 🔥 Future Improvements
+# 🔐 Password Reset Flow
 
-* Better UI Design
-* Context API Authentication
-* Cookie-based Authentication
-* Refresh Tokens
-* Email Templates
-* Loading States
-* Form Validation
-* Toast Notifications
-* User Profile
-* Deployment
+```
+Forgot Password
+        │
+        ▼
+Generate Random Token
+        │
+        ▼
+Hash Token using SHA-256
+        │
+        ▼
+Store Hash in Database
+        │
+        ▼
+Send Reset Link via Email
+        │
+        ▼
+User Opens Link
+        │
+        ▼
+Verify Token
+        │
+        ▼
+Update Password
+```
+
+---
+
+# 🛡 Authorization Flow
+
+```
+Request
+   │
+   ▼
+Authentication Middleware
+   │
+   ▼
+Verify JWT
+   │
+   ▼
+Attach User to Request
+   │
+   ▼
+Authorization Middleware
+   │
+   ▼
+Check Role
+   │
+   ▼
+Allow / Deny Access
+```
+
+---
+
+# 🛠 Technologies Used
+
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- Nodemailer
+- Cookie Parser
+- CORS
+- dotenv
+
+---
+
+## Frontend
+
+- React
+- Vite
+- React Router
+- Axios
+
+---
+
+# 📌 Current Features
+
+- ✅ User Registration
+- ✅ Login
+- ✅ Logout
+- ✅ JWT Authentication
+- ✅ Refresh Token Authentication
+- ✅ HTTP-only Cookie Authentication
+- ✅ Forgot Password
+- ✅ Reset Password
+- ✅ Email Integration
+- ✅ Protected Routes
+- ✅ Role-Based Authorization
+- ✅ Admin Routes
+- ✅ Service Layer Architecture
+- ✅ Controller Layer
+- ✅ Utility Layer
+- ✅ Middleware Layer
+
+---
+
+# 🚧 Upcoming Features
+
+- Cloudinary File Uploads
+- User Profile Image
+- Refresh Token Rotation
+- Logout From All Devices
+- Email Verification
+- Account Activation
+- Rate Limiting
+- API Validation
+- Security Headers (Helmet)
+- Request Logging
+- Docker Support
+- Deployment
+- CI/CD Pipeline
+
+---
+
+# 🎯 Learning Objectives
+
+This project was built to understand:
+
+- Backend Architecture
+- Authentication vs Authorization
+- JWT Authentication
+- Cookie-Based Authentication
+- Role-Based Access Control (RBAC)
+- Password Reset Flow
+- Secure Token Handling
+- Service-Based Architecture
+- REST API Development
+- Production-Level Backend Practices
 
 ---
 
 # 👨‍💻 Author
 
-Built by Nirbhay Jakhar 🚀
+**Nirbhay Jakhar**
+
+B.Tech Student | Full Stack Developer | MERN Stack Learner | DSA Enthusiast
+
+Currently building production-ready backend systems while learning system design, authentication, authorization, and scalable web application architecture.
