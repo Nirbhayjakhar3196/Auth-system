@@ -108,7 +108,20 @@ const logout = async (req, res) => {
 
     try{
 
-        const result = await authService.logoutUser(req.body.refreshToken);
+        const result = await authService.logoutUser(req.cookies.refreshToken);
+
+        res.cookie("accessToken" , "" , {
+            httpOnly: true,
+            secure:false,
+            sameSite:"lax",
+        })
+
+        res.cookie("refreshToken" , "" , {
+            httpOnly: true,
+            secure:false,
+            sameSite:"lax",
+        })
+        
 
         return res.status(200).json(result);
     }

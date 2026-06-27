@@ -1,5 +1,6 @@
 // Dashboard page component
 import { useNavigate ,Navigate ,Link } from "react-router-dom";
+import axios from "axios";
 
 function Dashboard() {
 
@@ -12,13 +13,19 @@ function Dashboard() {
         return <Navigate to="/" />;
     }
 
-    const handleLogout= () => {
+    const handleLogout= async() => {
 
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-        alert("Logout Successfully")
+        await axios.post(
+            "http://localhost:3000/api/auth/logout",
+            {},
+            {
+                withCredentials: true,
+            }
+        );
 
-        navigate("/")
+        localStorage.removeItem("user");
+
+        navigate("/");
     }
 
     return(
