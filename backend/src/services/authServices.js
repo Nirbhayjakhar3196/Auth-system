@@ -166,10 +166,34 @@ const resetPasswordService = async (token, password) => {
     };
 };
 
+const logoutUser = async (incomingRefreshToken) => {
+
+    if (!incomingRefreshToken) {
+        throw new Error("Refresh token not provided");
+    }
+
+    const user = await User.findOne({ refreshToken: incomingRefreshToken });
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+    
+    if(user){
+        user.refreshToken = undefined;
+        await user.save();
+    }
+
+    return {
+        message: "Logout successful",
+    }
+
+}
+
 module.exports = {
     registerUser,
     loginUser,
     refreshTokenService,
     forgotPasswordService,
     resetPasswordService,
+    logoutUser
 };

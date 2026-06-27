@@ -67,10 +67,28 @@ const resetPassword = async (req, res) => {
     }
 };
 
+const logout = async (req, res) => {
+
+    try{
+
+        const result = await authService.logoutUser(req.body.refreshToken);
+
+        return res.status(200).json(result);
+    }
+    catch(error){
+        return res.status(400).json({
+            message: error.message,
+        });
+
+}
+
+}
+
 module.exports = {
     register,
     login,
     forgotPassword,
     resetPassword,
-    refreshToken
-};
+    refreshToken,
+    logout
+}
