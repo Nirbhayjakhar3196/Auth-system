@@ -4,6 +4,21 @@ const register = async (req, res) => {
     try {
         const result = await authService.registerUser(req.body);
 
+        res.cookie("accessToken" , result.accessToken , {
+
+            httpOnly: true,
+            secure:false,
+            sameSite:"lax",
+            maxAge: 15*60*1000
+        })
+
+        res.cookie("refreshToken" , result.refreshToken , {
+            httpOnly: true,
+            secure:false,
+            sameSite:"lax",
+            maxAge: 30*24*60*60*1000
+        })
+
         return res.status(201).json(result);
     } catch (error) {
         return res.status(400).json({
@@ -16,7 +31,29 @@ const login = async (req, res) => {
     try {
         const result = await authService.loginUser(req.body);
 
-        return res.status(200).json(result);
+    console.log("LOGIN RESULT");
+    console.log(result);
+
+    res.cookie("accessToken", result.accessToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 15 * 60 * 1000,
+    });
+
+    console.log("Access cookie set");
+
+    res.cookie("refreshToken", result.refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+
+    console.log("Refresh cookie set");
+
+    return res.status(200).json(result);
+    
     } catch (error) {
         return res.status(400).json({
             message: error.message,

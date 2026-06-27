@@ -21,11 +21,14 @@ function Login() {
       {
         email,
         password
+      },
+      {
+        withCredentials: true,
       }
     )
       console.log(res.data);
 
-      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user" , JSON.stringify(res.data.user));
 
       localStorage.setItem(
         "user",
